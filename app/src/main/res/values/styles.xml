@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">#ffebe500</item>
+        <item name="colorAccent">#ffcc6426</item>
+        <item name="android:textColorPrimary">#ff262626</item>
+        <item name="android:textColorSecondary">#ff333636</item>
+        <!--<item name="windowActionModeOverlay">true</item>-->
+        <!--<item name="android:windowBackground">@null</item>-->
+    </style>
+
+    <style name="ToolBarTheme">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">56dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:background">@color/cyan_400</item>
+    </style>
+
+    <style name="TodoBarDefaultTheme">
+        <item name="android:gravity">center_vertical</item>
+        <item name="background">@color/gray_800</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/gray_deep</item>
+    </style>
+
+    <!--Three-line list-->
+    <style name="TodoDefaultTheme">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">48dp</item>
+    </style>
+
+    <style name="TodoActionText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/gray</item>
+    </style>
+
+    <style name="TodoDateText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/black_200</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+</resources>

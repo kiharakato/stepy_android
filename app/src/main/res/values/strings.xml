@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Stepy</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+
+    <!--development-->
+    <string name="create_todo_success">Success! new create todo!</string>
+    <string name="create_todo_failed">failed! new create todo!</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="blank"/>
+    <string name="create_group">+ 新規作成</string>
+    <string name="fab_behavior" translatable="false">me.stepy.app.view.ScrollFABBehavior</string>
+</resources>

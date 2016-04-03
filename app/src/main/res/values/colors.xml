@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--<item name="blue" type="color">#FF33B5E5</item>-->
+    <!--<item name="purple" type="color">#FFAA66CC</item>-->
+    <!--<item name="green" type="color">#FF99CC00</item>-->
+    <!--<item name="orange" type="color">#FFFFBB33</item>-->
+    <!--<item name="red" type="color">#FFFF4444</item>-->
+    <!--<item name="darkblue" type="color">#FF0099CC</item>-->
+    <!--<item name="darkpurple" type="color">#FF9933CC</item>-->
+    <!--<item name="darkgreen" type="color">#FF669900</item>-->
+    <!--<item name="darkorange" type="color">#FFFF8800</item>-->
+    <!--<item name="darkred" type="color">#FFCC0000</item>-->
+
+    <!--<item name="wh_red">#FF990000</item>-->
+    <!--<item name="wh_blue_lighter">#FF6E9DC6</item>-->
+    <!--<item name="wh_blue_light">#FF305581</item>-->
+    <!--<item name="wh_blue">#FF204571</item>-->
+    <!--<item name="pressed_whitehouse">#CC204471</item>-->
+
+    <!--<item name="meta_gray">#DDAAAAAA</item>-->
+
+    <!--<item name="feed_item_normal">@android:color/transparent</item>-->
+    <!--<item name="feed_item_focused">#cc1b71c8</item>-->
+    <!--&lt;!&ndash;<item name="feed_item_text_normal">@color/wh_blue</item>&ndash;&gt;-->
+    <!--<item name="feed_item_text_focused">@android:color/white</item>-->
+
+    <!--<item name="feed_meta_dark_background">#CC111111</item>-->
+    <!--<item name="dashboard_header_background">#B4B3B3</item>-->
+    <!--<item name="dashboard_background">#FFDDDDDD</item>-->
+    <!--<item name="dashboard_text">#DD333333</item>-->
+
+    <!--<item name="dashboard_item_normal">@android:color/transparent</item>-->
+    <!--<item name="dashboard_item_focused">#d2d2d2</item>-->
+
+    <!--<item name="search_stroke_normal">#CCCCCCCC</item>-->
+    <!--<item name="search_stroke_focused">#EEEEEEEE</item>-->
+    <!--<item name="search_stroke_pressed">#EEDDDDDD</item>-->
+    <!--<item name="search_text_color">#FFFFFF</item>-->
+    <!--<item name="search_results_background">#A1A1A1</item>-->
+
+    <!--<integer-array name="androidcolors">-->
+    <!--<item>@color/blue</item>-->
+    <!--<item>@color/purple</item>-->
+    <!--<item>@color/green</item>-->
+    <!--<item>@color/orange</item>-->
+    <!--<item>@color/red</item>-->
+    <!--<item>@color/darkblue</item>-->
+    <!--<item>@color/darkpurple</item>-->
+    <!--<item>@color/darkgreen</item>-->
+    <!--<item>@color/darkorange</item>-->
+    <!--<item>@color/darkred</item>-->
+    <!--</integer-array>-->
+
+    <item name="white" type="color">#FFFFFF</item>
+    <item name="brack" type="color">#FFFFFF</item>
+    <item name="todo_item_done_background" type="color">#99696969</item>
+    <item name="alpha_0" type="color">#00000000</item>
+
+    <item name="black" type="color">#000000</item>
+    <item name="black_200" type="color">#22000000</item>
+
+    <item name="white_gray" type="color">#EEEEEE</item>
+    <item name="white_gray_deep" type="color">#CCCCCC</item>
+    <item name="gray" type="color">#666666</item>
+    <item name="gray_800" type="color">#EE444444</item>
+    <item name="gray_deep" type="color">#333333</item>
+
+    <item name="white_alpha_50" type="color">#88FFFFFF</item>
+
+    <item name="red" type="color">#FF0000</item>
+    <item name="red_900" type="color">#99FF0000</item>
+    <item name="red_200" type="color">#22FF0000</item>
+
+    <item name="primary" type="color">#26C6DA</item>
+    <item name="primary_dark" type="color">#00838F</item>
+    <item name="primary_light" type="color">#B2EBF2</item>
+    <item name="accent" type="color">#f39832</item>
+    <item name="primary_text" type="color">#212121</item>
+    <item name="secondary_text" type="color">#727272</item>
+    <item name="icons" type="color">#212121</item>
+    <item name="divider" type="color">#B6B6B6</item>
+
+    <item name="cyan_500" type="color">#00BCD4</item>
+    <item name="cyan_50" type="color">#E0F7FA</item>
+    <item name="cyan_100" type="color">#B2EBF2</item>
+    <item name="cyan_200" type="color">#80DEEA</item>
+    <item name="cyan_300" type="color">#4DD0E1</item>
+    <item name="cyan_400" type="color">#26C6DA</item>
+    <item name="cyan_600" type="color">#00ACC1</item>
+    <item name="cyan_700" type="color">#0097A7</item>
+    <item name="cyan_800" type="color">#00838F</item>
+    <item name="cyan_900" type="color">#006064</item>
+    <item name="cyan_A100" type="color">#84FFFF</item>
+    <item name="cyan_A200" type="color">#18FFFF</item>
+    <item name="cyan_A400" type="color">#00E5FF</item>
+    <item name="cyan_A700" type="color">#00B8D4</item>
+
+</resources> 

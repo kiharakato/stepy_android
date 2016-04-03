@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:design="http://schemas.android.com/apk/res-auto"
+    android:layout_width="200dp"
+    android:layout_height="100dp"
+    android:orientation="vertical"
+    android:id="@+id/add_todo_view">
+
+    <EditText
+        android:background="#ff50c1ff"
+        android:id="@+id/input_create_action"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:inputType="text"/>
+
+    <Button
+        android:background="#090909"
+        android:id="@+id/send_create_action"
+        android:layout_width="20dp"
+        android:layout_height="40dp"
+        android:text="create action"/>
+
+</LinearLayout>
