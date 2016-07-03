@@ -1,5 +1,5 @@
 buildscript {
-    ext.kotlin_version = '1.0.2'
+    ext.kotlin_version = '1.0.3'
     repositories {
         jcenter()
         mavenCentral()
@@ -35,11 +35,11 @@ android {
             storePassword 'P3jOP5xIqxpUJRO7'
         }
     }
-    compileSdkVersion 23
+    compileSdkVersion 24
     buildToolsVersion '23.0.2'
     defaultConfig {
         applicationId 'me.stepy.app'
-        targetSdkVersion 23
+        targetSdkVersion 24
         versionCode 3
         versionName "0.0.2"
     }
@@ -84,10 +84,10 @@ dependencies {
 
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    compile 'com.android.support:appcompat-v7:23.2.0'
-    compile 'com.android.support:palette-v7:23.2.0'
-    compile 'com.android.support:recyclerview-v7:23.2.0'
-    compile 'com.android.support:design:23.2.0'
+    compile 'com.android.support:appcompat-v7:24.0.0'
+    compile 'com.android.support:palette-v7:24.0.0'
+    compile 'com.android.support:recyclerview-v7:24.0.0'
+    compile 'com.android.support:design:24.0.0'
     compile 'com.jakewharton:kotterknife:0.1.0-SNAPSHOT'
 
     compile "io.realm:realm-android:$realm_version"
@@ -100,7 +100,13 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
         transitive = true;
     }
-    compile 'com.google.android.gms:play-services-analytics:8.4.0'
+    compile 'com.google.android.gms:play-services-analytics:9.2.0'
+    compile 'com.google.android.gms:play-services-auth:9.2.0'
+
+    compile('com.mikepenz:materialdrawer:5.3.1@aar') {
+        transitive = true
+    }
+    compile 'com.getbase:floatingactionbutton:1.10.1'
 
     androidTestCompile 'org.robolectric:robolectric:3.0'
     androidTestCompile "org.powermock:powermock-module-junit4:1.6.4"

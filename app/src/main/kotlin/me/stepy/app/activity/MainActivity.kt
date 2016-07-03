@@ -5,11 +5,15 @@ import android.support.v4.app.FragmentActivity
 import android.support.v4.app.FragmentTransaction
 import android.view.KeyEvent
 import com.crashlytics.android.Crashlytics
+import com.mikepenz.materialdrawer.DrawerBuilder
 import io.fabric.sdk.android.Fabric
 import me.stepy.app.BuildConfig
 import me.stepy.app.R
 import me.stepy.app.fragment.GroupFragment
+import me.stepy.app.fragment.LoginFragment
 import me.stepy.app.fragment.MainFragment
+import me.stepy.app.util.tracking.SharedPreferencesWrap
+import me.stepy.app.util.tracking.SharedPreferencesWrap.KEY_LOGIN
 
 class MainActivity : FragmentActivity() {
 
@@ -30,11 +34,17 @@ class MainActivity : FragmentActivity() {
             fragment.onFragmentResume()
         }
 
+        DrawerBuilder().withActivity(this).build();
+
         applyMainFragment()
+//        if (SharedPreferencesWrap.getBoolean(KEY_LOGIN)) {
+//        } else {
+//            applyLoginFragment()
+//        }
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {;
             val fragmentManager = supportFragmentManager
             if (fragmentManager.backStackEntryCount > 0) {
                 fragmentManager.popBackStack()
@@ -42,6 +52,18 @@ class MainActivity : FragmentActivity() {
             }
         }
         return super.onKeyDown(keyCode, event)
+    }
+
+    fun clearAllFragments() {
+        val fragments = supportFragmentManager.fragments
+        fragments.forEach { fragment ->
+            supportFragmentManager.beginTransaction().remove(fragment).commit()
+        }
+    }
+
+    fun applyTopMainFragment() {
+        clearAllFragments()
+        applyMainFragment()
     }
 
     fun applyMainFragment() {
@@ -84,4 +106,17 @@ class MainActivity : FragmentActivity() {
                 .commit()
     }
 
+    fun applyLoginFragment() {
+        val fragment = LoginFragment()
+        supportFragmentManager
+                .beginTransaction()
+                .setCustomAnimations(
+                        R.anim.abc_fade_in,
+                        R.anim.abc_fade_out,
+                        R.anim.abc_fade_in,
+                        R.anim.abc_fade_out)
+                .add(R.id.mainFragment, fragment)
+                .addToBackStack(FRAGMENT_BACK_STACK_MAIN)
+                .commit()
+    }
 }

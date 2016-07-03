@@ -18,6 +18,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import kotlinx.android.synthetic.main.main_flagment.*
+//import kotlinx.android.synthetic.main.main_flagment.*
 import kotlinx.android.synthetic.main.parts_create_item_box.*
 import me.stepy.app.R
 import me.stepy.app.StepyApplication
@@ -119,27 +120,6 @@ class MainFragment : Fragment() {
             }
         }
 
-        createTodoBtn.apply {
-            setOnClickListener { v ->
-                val text = createTodo.text ?: ""
-                if (text.isEmpty()) return@setOnClickListener
-                val item = ItemRepo.create(text.toString())
-                mAdapter.addItem(item)
-                StepyApplication.hideKeyboard(activity)
-                createTodo.setText("")
-                GATracker.event(CATEGORY.CREATE_ITEM.to, ACTION.CLICK.to, LABEL.HOME.to, 1)
-            }
-            setOnTouchListener { view, motionEvent ->
-                when (motionEvent.action) {
-                    MotionEvent.ACTION_DOWN ->
-                        view.setBackgroundResource(R.color.cyan_500)
-                    MotionEvent.ACTION_CANCEL, MotionEvent.ACTION_UP ->
-                        view.setBackgroundResource(R.color.cyan_400)
-                }
-                return@setOnTouchListener false
-            }
-        }
-
         mRecyclerView.apply {
             adapter = mAdapter
             layoutManager = LinearLayoutManager(activity)
@@ -184,16 +164,11 @@ class MainFragment : Fragment() {
 
         override fun layoutDependsOn(parent: CoordinatorLayout?, child: View?, dependency: View?): Boolean {
             val isAppBarLayout = super.layoutDependsOn(parent, child, dependency)
-            return dependency?.id == R.id.createTodoContainer || isAppBarLayout
+            return isAppBarLayout
         }
 
         override fun onDependentViewChanged(parent: CoordinatorLayout?, child: View?, dependency: View?): Boolean {
             if (child == null || dependency == null) return super.onDependentViewChanged(parent, child, dependency)
-
-            if (dependency.id == R.id.createTodoContainer) {
-                child.setPadding(child.paddingLeft, child.paddingTop, child.paddingRight, dependency.height)
-                return false
-            }
 
             return super.onDependentViewChanged(parent, child, dependency)
         }

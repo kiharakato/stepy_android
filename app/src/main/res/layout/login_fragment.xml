@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/abc_action_bar_default_height_material"
+        app:elevation="0dp"
+        android:minHeight="0dp">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/tool_bar"
+            style="@style/ToolBarTheme"
+            android:background="@color/primary"
+            app:title="CREATE ACCOUNT"
+            app:titleTextColor="@color/white"
+            app:layout_scrollFlags="scroll|enterAlways"/>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <com.google.android.gms.common.SignInButton
+        android:visibility="gone"
+        android:id="@+id/google_sign_in_button"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/sign_in_button"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:padding="20dp"
+        android:background="@color/red"
+        android:textColor="@color/white"
+        android:text="Google Login"
+        android:typeface="monospace"
+        android:longClickable="false"
+        android:nestedScrollingEnabled="false"
+        android:textStyle="bold"/>
+
+    <Button
+        android:visibility="gone"
+        android:id="@+id/sign_out_button"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Sign Out"/>
+
+</RelativeLayout>

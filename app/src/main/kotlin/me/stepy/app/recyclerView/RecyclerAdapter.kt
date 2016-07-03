@@ -58,7 +58,7 @@ class RecyclerAdapter(realm: Realm) : RecyclerView.Adapter<RecyclerAdapter.Recyc
 
     override fun getItemViewType(position: Int): Int {
         return when {
-            (position == itemCount - 1) -> VIEW_CREATE_GROUP
+        //(position == itemCount - 1) -> VIEW_CREATE_GROUP
             (position <= items.size - 1) -> VIEW_TYPE_CHILD
             else -> VIEW_TYPE_LIST
         }
@@ -133,7 +133,8 @@ class RecyclerAdapter(realm: Realm) : RecyclerView.Adapter<RecyclerAdapter.Recyc
 
     override fun getItemCount(): Int {
         // create new group の分 +1 している。
-        return items.size + lists.size + 1
+        // return items.size + lists.size + 1
+        return items.size + lists.size
     }
 
     class RecyclerViewHolder(val box: View, val type: Int) : RecyclerView.ViewHolder(box) {
