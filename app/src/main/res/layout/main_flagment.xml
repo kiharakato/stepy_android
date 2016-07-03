@@ -8,7 +8,8 @@
     android:layout_height="match_parent"
     android:background="@drawable/create_todo_bg"
     android:fitsSystemWindows="true"
-    tools:context=".activity.MainActivity">
+    tools:context=".activity.MainActivity"
+    xmlns:fab="http://schemas.android.com/apk/res-auto">
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/recycler_view_refresh"
@@ -38,15 +39,35 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <com.getbase.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingbutton"
-        android:layout_width="wrap_content"
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
+        android:id="@+id/fab_menu"
         android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        fab:fab_addButtonColorNormal="@color/primary"
+        fab:fab_addButtonColorPressed="@color/primary"
+        fab:fab_addButtonPlusIconColor="@color/white"
+        android:layout_gravity="bottom|end"
         android:layout_marginBottom="16dp"
-        android:layout_marginRight="16dp"
-        android:src="@drawable/ic_add_white_18dp"
-        app:backgroundTint="@color/primary"
-        app:fabSize="normal"
-        android:layout_gravity="bottom|end"/>
+        android:layout_marginRight="16dp">
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_search_white_18dp"
+            app:backgroundTint="@color/md_teal_600"
+            fab:fab_title="create group"
+            app:fab_size="mini"/>
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_create_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_mode_edit_white_18dp"
+            app:backgroundTint="@color/md_teal_600"
+            fab:fab_title="search group"
+            app:fab_size="mini"/>
+
+    </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
 </android.support.design.widget.CoordinatorLayout>

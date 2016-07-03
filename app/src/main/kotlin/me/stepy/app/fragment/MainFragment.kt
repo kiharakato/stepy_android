@@ -11,30 +11,29 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.util.AttributeSet
-import android.view.*
+import android.view.KeyEvent
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.EditText
 import butterknife.bindView
 import com.afollestad.materialdialogs.MaterialDialog
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import kotlinx.android.synthetic.main.main_flagment.*
-//import kotlinx.android.synthetic.main.main_flagment.*
-import kotlinx.android.synthetic.main.parts_create_item_box.*
 import me.stepy.app.R
 import me.stepy.app.StepyApplication
 import me.stepy.app.activity.MainActivity
 import me.stepy.app.db.realmObj.Item
-import me.stepy.app.db.repository.ItemRepo
 import me.stepy.app.recyclerView.DividerItemDecoration
 import me.stepy.app.recyclerView.ItemOnTouchCallback
 import me.stepy.app.recyclerView.RecyclerAdapter
 import me.stepy.app.util.tracking.GATracker
-import kotlin.properties.Delegates
-
-import me.stepy.app.util.tracking.GATracker.Companion.SCREEN
-import me.stepy.app.util.tracking.GATracker.Companion.CATEGORY
 import me.stepy.app.util.tracking.GATracker.Companion.ACTION
+import me.stepy.app.util.tracking.GATracker.Companion.CATEGORY
 import me.stepy.app.util.tracking.GATracker.Companion.LABEL
+import me.stepy.app.util.tracking.GATracker.Companion.SCREEN
+import kotlin.properties.Delegates
 
 class MainFragment : Fragment() {
 
@@ -61,7 +60,7 @@ class MainFragment : Fragment() {
         setOnKeyEvent()
 
         tool_bar.apply {
-            title = "HOME"
+            title = "Stepy"
             setTitleTextColor(ContextCompat.getColor(activity, R.color.white))
         }
 
@@ -82,6 +81,9 @@ class MainFragment : Fragment() {
                 (activity as? MainActivity)?.applyGroupEditFragment(tag)
             }
         }
+        fab_create_group.setOnClickListener { (activity as? MainActivity)?.applyCreateGroupFragment() }
+        //fab_search.setOnClickListener { (activity as? MainActivity)?.applyCreateGroupFragment() }
+
         mAdapter.onItemClickListener = View.OnClickListener { view ->
             val tag = view.tag
             if (tag !is String) return@OnClickListener
