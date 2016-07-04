@@ -81,7 +81,10 @@ class MainFragment : Fragment() {
                 (activity as? MainActivity)?.applyGroupEditFragment(tag)
             }
         }
-        fab_create_group.setOnClickListener { (activity as? MainActivity)?.applyCreateGroupFragment() }
+        fab_create_group.setOnClickListener {
+            (activity as? MainActivity)?.applyCreateGroupFragment()
+            fab_menu.toggle()
+        }
         //fab_search.setOnClickListener { (activity as? MainActivity)?.applyCreateGroupFragment() }
 
         mAdapter.onItemClickListener = View.OnClickListener { view ->
