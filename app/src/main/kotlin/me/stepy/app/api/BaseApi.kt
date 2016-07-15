@@ -1,7 +1,7 @@
 package me.stepy.app.api
 
 import android.os.AsyncTask
-import android.util.Log
+import me.stepy.app.util.SLog
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
@@ -28,7 +28,7 @@ class BaseApi {
             val response = client.newCall(request.build()).execute()
 
             if (!response.isSuccessful) {
-                Log.e(TAG, response.body().string())
+                SLog.e(TAG, response.body().string())
             }
 
             return ApiEvent(response)
