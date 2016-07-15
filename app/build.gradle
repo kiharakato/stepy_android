@@ -108,6 +108,8 @@ dependencies {
     }
     compile 'com.getbase:floatingactionbutton:1.10.1'
 
+    compile 'com.squareup.okhttp3:okhttp:3.4.1'
+
     androidTestCompile 'org.robolectric:robolectric:3.0'
     androidTestCompile "org.powermock:powermock-module-junit4:1.6.4"
     androidTestCompile "org.powermock:powermock-module-junit4-rule:1.6.4"
