@@ -25,7 +25,19 @@
                 android:id="@+id/toolBar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"/>
+                app:layout_collapseMode="pin">
+
+                <!--&lt;!&ndash;setting&ndash;&gt;-->
+                <!--<ImageView-->
+                <!--android:id="@+id/editGroupBtn"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="right"-->
+                <!--android:padding="8dp"-->
+                <!--android:src="@drawable/ic_settings_white_18dp"-->
+                <!--app:layout_collapseMode="parallax"/>-->
+
+            </android.support.v7.widget.Toolbar>
 
             <!--description-->
             <!--<TextView-->
@@ -37,15 +49,6 @@
             <!--android:text="testtest"-->
             <!--app:layout_collapseMode="parallax"/>-->
 
-            <!--setting-->
-            <!--<ImageView-->
-            <!--android:id="@+id/editGroupBtn"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="bottom|right"-->
-            <!--android:padding="8dp"-->
-            <!--android:src="@drawable/ic_settings_white_18dp"-->
-            <!--app:layout_collapseMode="parallax"/>-->
 
         </android.support.design.widget.CollapsingToolbarLayout>
 

@@ -3,6 +3,8 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="action_group_public_toggle_off">公開する</string>
+    <string name="action_group_public_toggle_on">公開をやめる</string>
 
 
     <!--development-->

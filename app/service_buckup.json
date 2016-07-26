@@ -1,0 +1,119 @@
+{
+  "project_info": {
+    "project_number": "526736422485",
+    "project_id": "stepy-bbe61"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:526736422485:android:74be8ffd12408a10",
+        "android_client_info": {
+          "package_name": "me.stepy.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "526736422485-879h6204av1g5meo2d20hq6fubvg26lt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "me.stepy.app",
+            "certificate_hash": "02618190B71D67DE8B2B393008BF3E0BABC5806C"
+          }
+        },
+        {
+          "client_id": "526736422485-2m4kdumti9fa4n0s0jjdndhj0dt5j0id.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-juXEp99lhWFQVK_7M-KDFDahfrTfSvg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 2,
+          "analytics_property": {
+            "tracking_id": "UA-75041751-1"
+          }
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:526736422485:android:db6a2353f990b22b",
+        "android_client_info": {
+          "package_name": "me.stepy.app.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "526736422485-2m4kdumti9fa4n0s0jjdndhj0dt5j0id.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-juXEp99lhWFQVK_7M-KDFDahfrTfSvg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 2,
+          "analytics_property": {
+            "tracking_id": "UA-75041751-3"
+          }
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:526736422485:android:3ca8cb6250864358",
+        "android_client_info": {
+          "package_name": "me.stepy.app.dev.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "526736422485-2m4kdumti9fa4n0s0jjdndhj0dt5j0id.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-juXEp99lhWFQVK_7M-KDFDahfrTfSvg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 2,
+          "analytics_property": {
+            "tracking_id": "UA-75041751-4"
+          }
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

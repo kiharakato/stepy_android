@@ -1,16 +1,14 @@
 package me.stepy.app.fragment
 
-import android.animation.*
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
-import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.EditText
 import android.widget.LinearLayout
 import butterknife.bindView
@@ -21,17 +19,18 @@ import kotlinx.android.synthetic.main.fragment_group.*
 import kotlinx.android.synthetic.main.parts_create_item_box.*
 import me.stepy.app.R
 import me.stepy.app.StepyApplication
+import me.stepy.app.activity.MainActivity
 import me.stepy.app.db.realmObj.Group
 import me.stepy.app.db.repository.ItemRepo
 import me.stepy.app.recyclerView.DividerItemDecoration
 import me.stepy.app.recyclerView.GroupAdapter
 import me.stepy.app.recyclerView.ItemOnTouchCallback
 import me.stepy.app.util.tracking.GATracker
-import kotlin.properties.Delegates
 import me.stepy.app.util.tracking.GATracker.Companion.ACTION
 import me.stepy.app.util.tracking.GATracker.Companion.CATEGORY
 import me.stepy.app.util.tracking.GATracker.Companion.LABEL
 import me.stepy.app.util.tracking.GATracker.Companion.SCREEN
+import kotlin.properties.Delegates
 
 class GroupFragment : Fragment() {
 
@@ -41,6 +40,8 @@ class GroupFragment : Fragment() {
     private var groupId: String? = null
     private var realm: Realm by Delegates.notNull()
     private var mAdapter: GroupAdapter? = null
+    private val baseAc: MainActivity
+        get() = activity as MainActivity
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,8 +58,7 @@ class GroupFragment : Fragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        toolBar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp)
-        toolBar.setNavigationOnClickListener { activity.supportFragmentManager.popBackStack() }
+        setToolbar()
         appBarCollapsing.setOnClickListener { view ->
             val modal = LayoutInflater.from(activity).inflate(R.layout.module_create_group_dialog, null)
             val inputGroupName = modal.findViewById(R.id.inputGroupName) as EditText
@@ -100,6 +100,11 @@ class GroupFragment : Fragment() {
                 GATracker.event(CATEGORY.CREATE_ITEM.to, ACTION.CLICK.to, LABEL.GROUP.to, 1)
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        super.onCreateOptionsMenu(menu, inflater)
+        activity.menuInflater.inflate(R.menu.menu_main, menu)
     }
 
     override fun onResume() {
@@ -220,6 +225,9 @@ class GroupFragment : Fragment() {
     }
 
     companion object {
+
+        const val TAG = "GropuFragment"
+
         const val ARGUMENT_MODE = "startup"
         const val MODE_NEW = 0
         const val MODE_OPEN = 1
@@ -248,5 +256,21 @@ class GroupFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         if (realm.isClosed) realm.close()
+    }
+
+    private fun setToolbar() {
+        toolBar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp)
+        toolBar.setNavigationOnClickListener { activity.supportFragmentManager.popBackStack() }
+        toolBar.inflateMenu(R.menu.menu_main)
+        val menuTitle = if (baseAc.isLogin) "公開する" else "公開をやめる"
+        toolBar.menu.add(menuTitle)
+        toolBar.setOnMenuItemClickListener { item ->
+            if (item.title == "公開する") {
+                // todo update database
+            } else if (item.title == "公開をやめる") {
+                // todo remove database
+            }
+            return@setOnMenuItemClickListener true
+        }
     }
 }

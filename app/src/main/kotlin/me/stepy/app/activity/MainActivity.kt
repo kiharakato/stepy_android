@@ -3,26 +3,34 @@ package me.stepy.app.activity
 import android.os.Bundle
 import android.support.v4.app.FragmentActivity
 import android.support.v4.app.FragmentTransaction
+import android.util.Log
 import android.view.KeyEvent
 import com.crashlytics.android.Crashlytics
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.mikepenz.materialdrawer.DrawerBuilder
 import io.fabric.sdk.android.Fabric
-import me.stepy.app.BuildConfig
 import me.stepy.app.R
 import me.stepy.app.fragment.GroupFragment
 import me.stepy.app.fragment.LoginFragment
 import me.stepy.app.fragment.MainFragment
-import me.stepy.app.util.tracking.SharedPreferencesWrap
-import me.stepy.app.util.tracking.SharedPreferencesWrap.KEY_LOGIN
 
 class MainActivity : FragmentActivity() {
 
     companion object {
         const val FRAGMENT_BACK_STACK_MAIN = "main"
+        const val TAG = "MainActivity"
     }
+
+    lateinit var auth: FirebaseAuth
+    val user: FirebaseUser?
+        get() = auth.currentUser
+    val isLogin: Boolean
+        get() = auth.currentUser?.isAnonymous == false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        auth = FirebaseAuth.getInstance()
         setContentView(R.layout.activity_main)
 
         val fabric = Fabric.Builder(this).kits(Crashlytics()).debuggable(true).build()
@@ -34,21 +42,28 @@ class MainActivity : FragmentActivity() {
             fragment.onFragmentResume()
         }
 
-        DrawerBuilder().withActivity(this).build();
+        DrawerBuilder().withActivity(this).build()
 
         applyMainFragment()
-//        if (SharedPreferencesWrap.getBoolean(KEY_LOGIN)) {
-//        } else {
-//            applyLoginFragment()
-//        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        auth.currentUser ?: let {
+            auth.signInAnonymously().addOnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    Log.d(TAG, "Authentication failed", task.exception)
+                }
+            }
+        }
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {;
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
             val fragmentManager = supportFragmentManager
             if (fragmentManager.backStackEntryCount > 0) {
                 fragmentManager.popBackStack()
-                return true;
+                return true
             }
         }
         return super.onKeyDown(keyCode, event)
