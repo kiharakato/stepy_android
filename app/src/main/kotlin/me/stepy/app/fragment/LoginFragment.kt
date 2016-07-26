@@ -1,25 +1,20 @@
 package me.stepy.app.fragment
 
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.gms.auth.api.Auth
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.auth.api.signin.GoogleSignInResult
-import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.GoogleApiClient
 import kotlinx.android.synthetic.main.login_fragment.*
-import kotlinx.android.synthetic.main.parts_list_check_text.*
 import me.stepy.app.R
 import me.stepy.app.activity.MainActivity
+import me.stepy.app.api.UserApi
 import me.stepy.app.util.tracking.SharedPreferencesWrap
 
 class LoginFragment : Fragment() {
@@ -77,6 +72,7 @@ class LoginFragment : Fragment() {
                 Log.d(TAG, "GoogleSignInResult:" + result.isSuccess)
                 val acct = result.signInAccount ?: return
                 // TODO send server google token
+                val api = UserApi().execute(acct.email?:"", acct.zzafm())
                 SharedPreferencesWrap.setBoolean(SharedPreferencesWrap.KEY_LOGIN, true)
                 mainActivity.applyTopMainFragment()
             } else {
