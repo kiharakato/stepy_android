@@ -18,11 +18,11 @@ import android.view.ViewGroup
 import android.widget.EditText
 import butterknife.bindView
 import com.afollestad.materialdialogs.MaterialDialog
+import com.google.firebase.database.FirebaseDatabase
 import io.realm.Realm
-import io.realm.RealmConfiguration
 import kotlinx.android.synthetic.main.main_flagment.*
+import me.stepy.app.App
 import me.stepy.app.R
-import me.stepy.app.StepyApplication
 import me.stepy.app.activity.MainActivity
 import me.stepy.app.db.realmObj.Item
 import me.stepy.app.recyclerView.DividerItemDecoration
@@ -32,24 +32,21 @@ import me.stepy.app.util.tracking.GATracker
 import me.stepy.app.util.tracking.GATracker.Companion.ACTION
 import me.stepy.app.util.tracking.GATracker.Companion.CATEGORY
 import me.stepy.app.util.tracking.GATracker.Companion.LABEL
-import me.stepy.app.util.tracking.GATracker.Companion.SCREEN
 import kotlin.properties.Delegates
 
 class MainFragment : Fragment() {
 
     private var mAdapter: RecyclerAdapter by Delegates.notNull()
-    private val mRecyclerView: RecyclerView by bindView(R.id.recycler_view)
+    private val recyclerView: RecyclerView by bindView(R.id.recycler_view)
     private val RecyclerViewRefresh: SwipeRefreshLayout by bindView(R.id.recycler_view_refresh)
-    private var realm: Realm? = null
+    private var realm: Realm by Delegates.notNull<Realm>()
+    private val rootFBRef = FirebaseDatabase.getInstance().reference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val realmConfiguration = RealmConfiguration.Builder(activity).build()
-        val _realm = Realm.getInstance(realmConfiguration)
-        mAdapter = RecyclerAdapter(_realm)
-        realm = _realm
-        GATracker.screen(SCREEN.HOME.to)
+        realm = Realm.getDefaultInstance()
+        mAdapter = RecyclerAdapter(realm)
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -64,9 +61,6 @@ class MainFragment : Fragment() {
             setTitleTextColor(ContextCompat.getColor(activity, R.color.white))
         }
 
-        // なぜこの書き方でないとダメなのかが謎？
-        // 以下のように書きたい。
-        // mAdapter.onDataChangeListener = RecyclerAdapter.DataChangeListener { dataCount -> // doing}
         mAdapter.onDataChangeListener = object : RecyclerAdapter.DataChangeListener {
             override fun onChange(dataCount: Int) {
                 RecyclerViewRefresh.isEnabled = 0 < dataCount
@@ -95,7 +89,7 @@ class MainFragment : Fragment() {
             val item = _realm.where(Item::class.java).equalTo("id", tag).findFirst()
             _realm.commitTransaction()
 
-            //            EventTracker.getDefaultTracker().send(HitBuilders.EventBuilder().setAction("onClick").setCategory("itemEdit").setLabel(item.action).build())
+            // EventTracker.getDefaultTracker().send(HitBuilders.EventBuilder().setAction("onClick").setCategory("itemEdit").setLabel(item.action).build())
             val modal = LayoutInflater.from(activity).inflate(R.layout.module_create_group_dialog, null)
             val inputGroupName = modal.findViewById(R.id.inputGroupName) as EditText
             inputGroupName.setText(item.action)
@@ -118,14 +112,14 @@ class MainFragment : Fragment() {
                     GATracker.event(CATEGORY.EDIT_ITEM.to, ACTION.MODAL_OK.to, LABEL.TITLE.to, 1)
                 }
                 showListener {
-                    StepyApplication.showKeyboard(inputGroupName, activity)
+                    App.showKeyboard(inputGroupName, activity)
                     GATracker.event(CATEGORY.EDIT_ITEM.to, ACTION.MODAL_SHOW.to, LABEL.TITLE.to, 1)
                 }
                 show()
             }
         }
 
-        mRecyclerView.apply {
+        recyclerView.apply {
             adapter = mAdapter
             layoutManager = LinearLayoutManager(activity)
             addItemDecoration(DividerItemDecoration(activity))
@@ -152,8 +146,8 @@ class MainFragment : Fragment() {
             }
         }
         val helper = ItemTouchHelper(callback)
-        helper.attachToRecyclerView(mRecyclerView)
-        mRecyclerView.addItemDecoration(helper)
+        helper.attachToRecyclerView(recyclerView)
+        recyclerView.addItemDecoration(helper)
 
         app_bar.addOnOffsetChangedListener { appBarLayout, mode ->
             RecyclerViewRefresh.isEnabled = if (mode == 0) true else false
@@ -196,11 +190,6 @@ class MainFragment : Fragment() {
                 else -> false
             }
         })
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        mRecyclerView.adapter = null
     }
 
     override fun onDestroy() {

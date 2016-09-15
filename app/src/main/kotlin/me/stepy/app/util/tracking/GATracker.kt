@@ -4,16 +4,16 @@ import com.google.android.gms.analytics.GoogleAnalytics
 import com.google.android.gms.analytics.HitBuilders
 import com.google.android.gms.analytics.Tracker
 import me.stepy.app.R
-import me.stepy.app.StepyApplication
+import me.stepy.app.App
 
 class GATracker {
 
     companion object {
         private var tracker: Tracker? = null
 
-        @Synchronized fun getDefaultTracker(): Tracker {
+        fun getDefaultTracker(): Tracker {
             return tracker ?: run {
-                val analytics = GoogleAnalytics.getInstance(StepyApplication.getInstance())
+                val analytics = GoogleAnalytics.getInstance(App.getInstance())
                 tracker = analytics.newTracker(R.xml.global_tracker)
                 return tracker as Tracker
             }

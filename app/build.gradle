@@ -48,8 +48,6 @@ android {
         targetCompatibility JavaVersion.VERSION_1_7
     }
     buildTypes {
-        debug {
-        }
         release {
             signingConfig signingConfigs.release
             minifyEnabled true
@@ -98,10 +96,9 @@ dependencies {
         transitive = true
     }
     compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
-        transitive = true;
+        transitive = true
     }
-    compile 'com.google.android.gms:play-services-analytics:9.2.0'
-    compile 'com.google.android.gms:play-services-auth:9.2.0'
+    compile 'com.google.android.gms:play-services-analytics:9.4.0'
 
     // firebase
     compile 'com.google.firebase:firebase-crash:9.2.0'
@@ -113,6 +110,10 @@ dependencies {
     compile 'com.getbase:floatingactionbutton:1.10.1'
 
     compile 'com.squareup.okhttp3:okhttp:3.4.1'
+
+    compile 'com.google.firebase:firebase-auth:9.4.0'
+    compile 'com.google.firebase:firebase-database:9.4.0'
+    compile 'com.firebaseui:firebase-ui-database:0.4.3'
 
     androidTestCompile 'org.robolectric:robolectric:3.0'
     androidTestCompile "org.powermock:powermock-module-junit4:1.6.4"

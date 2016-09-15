@@ -1,6 +1,6 @@
 package me.stepy.app.db.model
 
-import me.stepy.app.StepyApplication
+import me.stepy.app.App
 
 data class TodoGroup(
         var id: Long?,
@@ -10,7 +10,7 @@ data class TodoGroup(
 
     companion object {
         public fun create(id: Long? = null, name: String): TodoGroup {
-            val now = StepyApplication.getDateTime()
+            val now = App.getDateTime()
             return TodoGroup(id, name, now, now)
         }
     }

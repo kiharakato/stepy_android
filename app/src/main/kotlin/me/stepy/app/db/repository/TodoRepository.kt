@@ -2,7 +2,7 @@ package me.stepy.app.db.repository
 
 import android.content.ContentValues
 import android.database.Cursor
-import me.stepy.app.StepyApplication
+import me.stepy.app.App
 import me.stepy.app.db.StepySQLiteHelper
 import me.stepy.app.db.model.Todo
 import java.util.*
@@ -104,7 +104,7 @@ class TodoRepository : BaseRepository() {
         fun UpdateStatus(id: Long, status: Int): Int {
             val contentValues = ContentValues().apply {
                 put("status", status)
-                put("updated_at", StepyApplication.getDateTime())
+                put("updated_at", App.getDateTime())
             }
             return getDB().update(TABLE_NAME, contentValues, "id = $id", null)
         }

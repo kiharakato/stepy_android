@@ -1,6 +1,6 @@
 package me.stepy.app.db.model
 
-import me.stepy.app.StepyApplication
+import me.stepy.app.App
 import java.util.*
 
 data class Todo(
@@ -18,7 +18,7 @@ data class Todo(
         const val DONE_STATUS = 1
 
         fun create(action: String, parent: Long?): Todo {
-            val now = StepyApplication.getDateTime()
+            val now = App.getDateTime()
             return Todo(null, action, ACTION_STATUS, now, now, parent)
         }
     }

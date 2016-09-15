@@ -3,7 +3,7 @@ package me.stepy.app.util.tracking
 import android.util.Base64
 import android.app.Activity
 import android.content.SharedPreferences
-import me.stepy.app.StepyApplication
+import me.stepy.app.App
 
 object SharedPreferencesWrap {
 
@@ -11,8 +11,8 @@ object SharedPreferencesWrap {
 
     val localStorage: SharedPreferences
         get() {
-            val packageName = StepyApplication.getInstance().packageName
-            return StepyApplication.getInstance().getSharedPreferences(packageName, Activity.MODE_PRIVATE)
+            val packageName = App.getInstance().packageName
+            return App.getInstance().getSharedPreferences(packageName, Activity.MODE_PRIVATE)
         }
 
     /**

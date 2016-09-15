@@ -15,13 +15,16 @@ import me.stepy.app.db.StepySQLiteHelper
 import java.util.*
 import kotlin.properties.Delegates
 
-class StepyApplication : Application() {
+class App : Application() {
 
     val DB: SQLiteDatabase by lazy { StepySQLiteHelper(this).writableDatabase }
 
     override fun onCreate() {
         super.onCreate()
-        StepyApplication.context = applicationContext
+        App.context = applicationContext
+
+        val realmConfiguration = RealmConfiguration.Builder(this).build()
+        Realm.setDefaultConfiguration(realmConfiguration)
     }
 
     companion object {

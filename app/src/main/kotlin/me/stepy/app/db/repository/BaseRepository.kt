@@ -1,6 +1,6 @@
 package me.stepy.app.db.repository
 
-import me.stepy.app.StepyApplication
+import me.stepy.app.App
 
 open class BaseRepository {
 
@@ -10,7 +10,7 @@ open class BaseRepository {
         const val CREATED_KEY = "created_at"
         const val UPDATED_KEY = "updated_at"
 
-        fun getDB() = (StepyApplication.getInstance() as StepyApplication).DB
+        fun getDB() = (App.getInstance() as App).DB
 
     }
 }

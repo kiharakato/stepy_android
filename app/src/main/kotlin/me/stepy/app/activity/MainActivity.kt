@@ -3,16 +3,14 @@ package me.stepy.app.activity
 import android.os.Bundle
 import android.support.v4.app.FragmentActivity
 import android.support.v4.app.FragmentTransaction
-import android.util.Log
 import android.view.KeyEvent
+import android.widget.Toast
 import com.crashlytics.android.Crashlytics
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.mikepenz.materialdrawer.DrawerBuilder
 import io.fabric.sdk.android.Fabric
 import me.stepy.app.R
 import me.stepy.app.fragment.GroupFragment
-import me.stepy.app.fragment.LoginFragment
 import me.stepy.app.fragment.MainFragment
 
 class MainActivity : FragmentActivity() {
@@ -22,40 +20,22 @@ class MainActivity : FragmentActivity() {
         const val TAG = "MainActivity"
     }
 
-    lateinit var auth: FirebaseAuth
-    val user: FirebaseUser?
-        get() = auth.currentUser
+    val auth: FirebaseAuth = FirebaseAuth.getInstance()
     val isLogin: Boolean
         get() = auth.currentUser?.isAnonymous == false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        auth = FirebaseAuth.getInstance()
         setContentView(R.layout.activity_main)
 
         val fabric = Fabric.Builder(this).kits(Crashlytics()).debuggable(true).build()
         Fabric.with(fabric)
 
-        supportFragmentManager.addOnBackStackChangedListener {
-            supportFragmentManager ?: return@addOnBackStackChangedListener
-            val fragment = supportFragmentManager.findFragmentById(R.id.mainFragment) as? MainFragment ?: return@addOnBackStackChangedListener
-            fragment.onFragmentResume()
-        }
+        auth.currentUser ?: let { auth.signInAnonymously() }
 
         DrawerBuilder().withActivity(this).build()
 
         applyMainFragment()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        auth.currentUser ?: let {
-            auth.signInAnonymously().addOnCompleteListener { task ->
-                if (!task.isSuccessful) {
-                    Log.d(TAG, "Authentication failed", task.exception)
-                }
-            }
-        }
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
@@ -109,20 +89,6 @@ class MainActivity : FragmentActivity() {
 
     fun applyGroupEditFragment(groupId: String) {
         val fragment = GroupFragment.createOpenGroupFragment(groupId)
-        supportFragmentManager
-                .beginTransaction()
-                .setCustomAnimations(
-                        R.anim.abc_fade_in,
-                        R.anim.abc_fade_out,
-                        R.anim.abc_fade_in,
-                        R.anim.abc_fade_out)
-                .add(R.id.mainFragment, fragment)
-                .addToBackStack(FRAGMENT_BACK_STACK_MAIN)
-                .commit()
-    }
-
-    fun applyLoginFragment() {
-        val fragment = LoginFragment()
         supportFragmentManager
                 .beginTransaction()
                 .setCustomAnimations(

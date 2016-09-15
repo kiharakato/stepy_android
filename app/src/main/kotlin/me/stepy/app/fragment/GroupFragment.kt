@@ -13,12 +13,14 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import butterknife.bindView
 import com.afollestad.materialdialogs.MaterialDialog
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import kotlinx.android.synthetic.main.fragment_group.*
 import kotlinx.android.synthetic.main.parts_create_item_box.*
 import me.stepy.app.R
-import me.stepy.app.StepyApplication
+import me.stepy.app.App
 import me.stepy.app.activity.MainActivity
 import me.stepy.app.db.realmObj.Group
 import me.stepy.app.db.repository.ItemRepo
@@ -30,6 +32,7 @@ import me.stepy.app.util.tracking.GATracker.Companion.ACTION
 import me.stepy.app.util.tracking.GATracker.Companion.CATEGORY
 import me.stepy.app.util.tracking.GATracker.Companion.LABEL
 import me.stepy.app.util.tracking.GATracker.Companion.SCREEN
+import org.json.JSONObject
 import kotlin.properties.Delegates
 
 class GroupFragment : Fragment() {
@@ -42,6 +45,7 @@ class GroupFragment : Fragment() {
     private var mAdapter: GroupAdapter? = null
     private val baseAc: MainActivity
         get() = activity as MainActivity
+    private var database = FirebaseDatabase.getInstance().reference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,7 +86,7 @@ class GroupFragment : Fragment() {
                     GATracker.event(CATEGORY.EDIT_GROUP_NAME.to, ACTION.MODAL_OK.to, LABEL.TITLE.to, 1)
                 }
                 showListener {
-                    StepyApplication.showKeyboard(inputGroupName, activity)
+                    App.showKeyboard(inputGroupName, activity)
                     GATracker.event(CATEGORY.EDIT_GROUP_NAME.to, ACTION.MODAL_SHOW.to, LABEL.TITLE.to, 1)
                 }
                 show()
@@ -95,7 +99,7 @@ class GroupFragment : Fragment() {
                 if (text.isEmpty()) return@setOnClickListener
                 val item = ItemRepo.create(text.toString(), groupId)
                 mAdapter?.addItem(item)
-                StepyApplication.hideKeyboard(activity)
+                App.hideKeyboard(activity)
                 createTodo.setText("")
                 GATracker.event(CATEGORY.CREATE_ITEM.to, ACTION.CLICK.to, LABEL.GROUP.to, 1)
             }
@@ -136,7 +140,7 @@ class GroupFragment : Fragment() {
 
         createTodoContainer.apply {
             clearAnimation()
-            translationX = StepyApplication.getDisplayRealSize(activity).x.toFloat()
+            translationX = App.getDisplayRealSize(activity).x.toFloat()
         }
     }
 
@@ -148,17 +152,17 @@ class GroupFragment : Fragment() {
             customView(modal, false)
             negativeText("cancel")
             onNegative { dialog, action ->
-                StepyApplication.hideKeyboard(activity)
+                App.hideKeyboard(activity)
                 activity.supportFragmentManager.popBackStack()
             }
             positiveText("ok")
             autoDismiss(true)
             showListener {
-                StepyApplication.showKeyboard(inputGroupName, activity)
+                App.showKeyboard(inputGroupName, activity)
             }
             onPositive { dialog, action ->
                 createNewGroup(inputGroupName.text.toString())
-                StepyApplication.hideKeyboard(activity)
+                App.hideKeyboard(activity)
             }
             show()
         }
@@ -175,6 +179,9 @@ class GroupFragment : Fragment() {
         realm.beginTransaction()
         realm.copyToRealmOrUpdate(group)
         realm.commitTransaction()
+
+        database.child("list")
+        database.child("user-todo-list")
 
         appearContent()
     }
