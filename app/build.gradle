@@ -1,12 +1,12 @@
 buildscript {
-    ext.kotlin_version = '1.0.3'
+    ext.kotlin_version = '1.0.4'
     repositories {
         jcenter()
         mavenCentral()
         maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.0-beta2'
+        classpath 'com.android.tools.build:gradle:2.2.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jetbrains.kotlin:kotlin-android-extensions:$kotlin_version"
         classpath 'io.fabric.tools:gradle:1.21.4'
@@ -82,10 +82,10 @@ dependencies {
 
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    compile 'com.android.support:appcompat-v7:24.2.0'
-    compile 'com.android.support:palette-v7:24.2.0'
-    compile 'com.android.support:recyclerview-v7:24.2.0'
-    compile 'com.android.support:design:24.2.0'
+    compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.android.support:palette-v7:24.2.1'
+    compile 'com.android.support:recyclerview-v7:24.2.1'
+    compile 'com.android.support:design:24.2.1'
     compile 'com.jakewharton:kotterknife:0.1.0-SNAPSHOT'
 
     compile "io.realm:realm-android:$realm_version"
@@ -98,18 +98,15 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
         transitive = true
     }
-    compile 'com.google.android.gms:play-services-analytics:9.4.0'
+    compile 'com.google.android.gms:play-services-analytics:9.6.1'
 
     // firebase
-    compile 'com.google.firebase:firebase-crash:9.2.0'
     compile 'com.google.firebase:firebase-auth:9.2.0'
 
     compile('com.mikepenz:materialdrawer:5.3.1@aar') {
         transitive = true
     }
     compile 'com.getbase:floatingactionbutton:1.10.1'
-
-    compile 'com.squareup.okhttp3:okhttp:3.4.1'
 
     compile 'com.google.firebase:firebase-auth:9.4.0'
     compile 'com.google.firebase:firebase-database:9.4.0'

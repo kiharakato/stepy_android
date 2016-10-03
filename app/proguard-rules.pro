@@ -15,6 +15,9 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+-keepattributes InnerClasses
+-dontoptimize
+
 -dontwarn kotlin.dom.*
 
 -dontwarn android.support.v4.**
