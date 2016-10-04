@@ -9,18 +9,18 @@ import android.widget.TextView
 import io.realm.Realm
 import io.realm.Sort
 import me.stepy.app.R
-import me.stepy.app.db.realmObj.Group
-import me.stepy.app.db.realmObj.Item
+import me.stepy.app.model.Item
+import me.stepy.app.model.Note
 import java.lang.ref.WeakReference
 
-class RecyclerAdapter(realm: Realm) : RecyclerView.Adapter<RecyclerAdapter.RecyclerViewHolder>() {
-    data class ListHome(val list: Group, val childCount: Long)
+class ListAdapter(realm: Realm) : RecyclerView.Adapter<ListAdapter.RecyclerViewHolder>() {
+    data class ListHome(val note: Note, val childCount: Long)
 
     private val items = arrayListOf<Item>()
     private val lists = arrayListOf<ListHome>()
     private var realWeakReference: WeakReference<Realm?> = WeakReference(null)
 
-    var onDataChangeListener: DataChangeListener? = null
+    var onDataChangeListener: ((Int) -> Unit)? = null
     var onCreateGroupClickListener: View.OnClickListener? = null
     var onGroupClickListener: View.OnClickListener? = null
     var onItemClickListener: View.OnClickListener? = null
@@ -35,25 +35,25 @@ class RecyclerAdapter(realm: Realm) : RecyclerView.Adapter<RecyclerAdapter.Recyc
         items.clear()
         lists.clear()
 
-        val realm = realWeakReference.get() ?: return
-        realm.beginTransaction()
-        realm.where(Item::class.java)
-                .equalTo("status", Item.STATUS_ACTIVE)
-                .isNull("parent")
-                .findAllSorted("updated_at", Sort.DESCENDING)
-                .forEach { item -> items.add(item) }
-
-        realm.where(Group::class.java)
-                .equalTo("status", Group.STATUS_ACTIVE)
-                .findAllSorted("updated_at", Sort.DESCENDING)
-                .forEach { list ->
-                    val childCount = realm.where(Item::class.java)
-                            .equalTo("parent", list.id)
-                            .equalTo("status", Item.STATUS_ACTIVE)
-                            .count()
-                    lists.add(ListHome(list, childCount))
-                }
-        realm.commitTransaction()
+//        val realm = realWeakReference.get() ?: return
+//        realm.beginTransaction()
+//        realm.where(Item::class.java)
+//                .equalTo("status", Item.STATUS_ACTIVE)
+//                .isNull("parent")
+//                .findAllSorted("updated_at", Sort.DESCENDING)
+//                .forEach { item -> items.add(item) }
+//
+//        realm.where(List::class.java)
+//                .equalTo("status", Note.STATUS_ACTIVE)
+//                .findAllSorted("updated_at", Sort.DESCENDING)
+//                .forEach { list ->
+//                    val childCount = realm.where(Item::class.java)
+//                            .equalTo("parent", list.id)
+//                            .equalTo("status", Item.STATUS_ACTIVE)
+//                            .count()
+//                    lists.add(ListHome(list, childCount))
+//                }
+//        realm.commitTransaction()
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -92,12 +92,12 @@ class RecyclerAdapter(realm: Realm) : RecyclerView.Adapter<RecyclerAdapter.Recyc
                 translationY = 0f
             }
 
-            viewHolder.box.tag = item.id
+            // viewHolder.box.tag = item.id
             // viewHolder.createdAt?.text = item.getElapsedTime()
             viewHolder.createdAt?.visibility = View.GONE
             viewHolder.action?.text = item.action
             viewHolder.action?.setOnClickListener { view ->
-                view.tag = item.id
+                // view.tag = item.id
                 onItemClickListener?.onClick(view)
             }
         } else if (type == VIEW_TYPE_LIST) {
@@ -108,9 +108,9 @@ class RecyclerAdapter(realm: Realm) : RecyclerView.Adapter<RecyclerAdapter.Recyc
             }
 
             val list = lists[getListPosition(position)]
-            viewHolder.listName?.text = list.list.name
+            // viewHolder.listName?.text = list.list.name
             viewHolder.listChildCount?.text = list.childCount.toString()
-            viewHolder.box.tag = list.list.id
+            // viewHolder.box.tag = list.list.id
             viewHolder.box.setOnClickListener { view ->
                 onGroupClickListener?.onClick(view)
             }
@@ -186,11 +186,7 @@ class RecyclerAdapter(realm: Realm) : RecyclerView.Adapter<RecyclerAdapter.Recyc
         initData()
         isCreateItem = false
         notifyDataSetChanged()
-        onDataChangeListener?.onChange(items.size)
-    }
-
-    interface DataChangeListener {
-        fun onChange(dataCount: Int)
+        onDataChangeListener?.invoke(items.size)
     }
 
     fun addItem(item: Item) {

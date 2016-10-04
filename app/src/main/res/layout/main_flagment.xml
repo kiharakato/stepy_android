@@ -31,7 +31,7 @@
         android:minHeight="0dp">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/tool_bar"
+            android:id="@+id/toolBar"
             style="@style/ToolBarTheme"
             app:layout_scrollFlags="scroll|enterAlways">
 
@@ -60,7 +60,7 @@
             app:fab_size="mini"/>
 
         <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_create_group"
+            android:id="@+id/fabCreateGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_mode_edit_white_18dp"

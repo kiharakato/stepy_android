@@ -26,7 +26,7 @@ class ItemOnTouchCallback(val activtiy: Activity) : ItemTouchHelper.Callback() {
 
     override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
         val type = viewHolder.itemViewType
-        if (type == RecyclerAdapter.VIEW_CREATE_GROUP) {
+        if (type == GroupAdapter.VIEW_CREATE_GROUP) {
             return makeMovementFlags(0, 0)
         }
 
@@ -50,11 +50,11 @@ class ItemOnTouchCallback(val activtiy: Activity) : ItemTouchHelper.Callback() {
             var id = viewHolder.itemView.tag
             if (id !is String) return
 
-            if (type == RecyclerAdapter.VIEW_TYPE_CHILD) {
+            if (type == GroupAdapter.VIEW_TYPE_CHILD) {
                 // update database
                 ItemRepo.updateStatus(id, Item.STATUS_DONE)
                 onSwipeListener?.onSwiped(viewHolder, direction)
-            } else if (type == RecyclerAdapter.VIEW_TYPE_LIST) {
+            } else if (type == GroupAdapter.VIEW_TYPE_LIST) {
                 MaterialDialog.Builder(activtiy).run {
                     title("グループを削除してよいですか？")
                     autoDismiss(true)
@@ -80,8 +80,8 @@ class ItemOnTouchCallback(val activtiy: Activity) : ItemTouchHelper.Callback() {
     override fun onChildDraw(c: Canvas?, recyclerView: RecyclerView?, viewHolder: RecyclerView.ViewHolder?, dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
         if (viewHolder != null) {
             val type = viewHolder.itemViewType
-            if (type == RecyclerAdapter.VIEW_TYPE_CHILD || type == RecyclerAdapter.VIEW_TYPE_LIST) {
-                if (viewHolder is RecyclerAdapter.RecyclerViewHolder) {
+            if (type == GroupAdapter.VIEW_TYPE_CHILD || type == GroupAdapter.VIEW_TYPE_LIST) {
+                if (viewHolder is GroupAdapter.RecyclerViewHolder) {
                     viewHolder.content!!.translationY = dY
                     viewHolder.content!!.translationX = dX
                     return
