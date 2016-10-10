@@ -7,12 +7,11 @@ import android.view.ViewGroup
 import android.widget.*
 import android.widget.LinearLayout.LayoutParams.MATCH_PARENT
 import me.stepy.app.R
-import me.stepy.app.db.repository.TodoGroupRepository
 import java.util.*
 
 class TodoGroupLinearLayout : LinearLayout {
 
-    private var groupNames: ArrayList<String> = TodoGroupRepository.selectAllNames()
+    private var groupNames: ArrayList<String> = arrayListOf()
     //private var groupNames: ArrayList<String> = arrayListOf()
     private val inflater: LayoutInflater
     private val groupSpinner: GroupSpinner

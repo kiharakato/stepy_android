@@ -4,53 +4,41 @@ import android.content.Context
 import android.os.Bundle
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.CoordinatorLayout
-import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.util.AttributeSet
-import android.view.KeyEvent
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.EditText
+import android.widget.TextView
 import butterknife.bindView
 import com.afollestad.materialdialogs.MaterialDialog
+import com.firebase.ui.database.FirebaseRecyclerAdapter
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import io.realm.Realm
 import kotlinx.android.synthetic.main.main_flagment.*
 import me.stepy.app.App
 import me.stepy.app.R
-import me.stepy.app.activity.MainActivity
+import me.stepy.app.model.Note
 import me.stepy.app.recyclerView.DividerItemDecoration
 import me.stepy.app.recyclerView.ItemOnTouchCallback
-import me.stepy.app.recyclerView.ListAdapter
-import me.stepy.app.util.tracking.GATracker
-import me.stepy.app.util.tracking.GATracker.Companion.ACTION
-import me.stepy.app.util.tracking.GATracker.Companion.CATEGORY
-import me.stepy.app.util.tracking.GATracker.Companion.LABEL
+import me.stepy.app.util.SLog
 import kotlin.properties.Delegates
 
-class MainFragment : Fragment() {
+class MainFragment : BaseFragment() {
 
-    private var listAdapter: ListAdapter by Delegates.notNull()
+    private var noteAdapter: FirebaseRecyclerAdapter<Note, NoteViewHolder> by Delegates.notNull()
     private val recyclerView: RecyclerView by bindView(R.id.recycler_view)
     private val refreshView: SwipeRefreshLayout by bindView(R.id.recycler_view_refresh)
-    private var realm: Realm by Delegates.notNull<Realm>()
     private var userRef: DatabaseReference by Delegates.notNull()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // realm = Realm.getDefaultInstance()
-        listAdapter = ListAdapter(realm)
-
-        val userKey = App.auth.currentUser.uid
-        val rootRef = FirebaseDatabase.getInstance().reference
-        userRef = rootRef.child("notes").child(userKey)
+        val userKey = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        userRef = FirebaseDatabase.getInstance().reference.child("notes").child(userKey)
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -62,99 +50,71 @@ class MainFragment : Fragment() {
 
         toolBar.apply {
             title = "Stepy"
-            setTitleTextColor(ContextCompat.getColor(activity, R.color.white))
+            setTitleTextColor(App.getColor(R.color.white))
         }
 
-        listAdapter.let {
-            it.onDataChangeListener = { dataCount ->
-                refreshView.isEnabled = 0 < dataCount
+        noteAdapter = object : FirebaseRecyclerAdapter<Note, NoteViewHolder>(
+                Note::class.java, R.layout.row_group_title, NoteViewHolder::class.java, userRef) {
+            override fun populateViewHolder(viewHolder: NoteViewHolder?, model: Note?, position: Int) {
+                viewHolder?.bind(model, getRef(position).key, position)
             }
-            it.onCreateGroupClickListener = View.OnClickListener {
-                // (activity as? MainActivity)?.applyCreateGroupFragment()
-            }
-            it.onGroupClickListener = View.OnClickListener { view ->
-                if (view.tag is String) {
-                    // (activity as? MainActivity)?.applyGroupEditFragment(tag)
+            override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): NoteViewHolder? {
+                return super.onCreateViewHolder(parent, viewType).apply {
+                    itemView.setOnClickListener { view ->
+                        val key = view.tag
+                        if(key is String) {
+                            SLog.d("MainFragment", key)
+                            _activity?.fm?.openAsRoot(NoteFragment::class.java, NoteFragment.buildArgument(key))
+                        }
+                    }
                 }
             }
-            /***
-             * 今回は ListとItemを混合にしないのでコメントアウト。
-             * TODO: コミット前に削除
-            it.onItemClickListener = View.OnClickListener { view ->
-                if (view.tag !is String) return@OnClickListener
-
-                // val _realm = realm
-                // _realm.beginTransaction()
-                // val item = _realm.where(Item::class.java).equalTo("id", tag).findFirst()
-                // _realm.commitTransaction()
-
-                val modal = LayoutInflater.from(activity).inflate(R.layout.module_create_group_dialog, null)
-                val inputGroupName = modal.findViewById(R.id.inputGroupName) as EditText
-
-                inputGroupName.setText(item.action)
-                inputGroupName.setSelection(item.action.length)
-
-                MaterialDialog.Builder(activity).run {
-                    title("Edit Item")
-                    customView(modal, false)
-                    autoDismiss(true)
-                    negativeText("cancel")
-                    positiveText("ok")
-                    onPositive { materialDialog, dialogAction ->
-                        // _realm.beginTransaction()
-                        // val item = _realm.where(Item::class.java).equalTo("id", tag).findFirst()
-                        // item.action = inputGroupName.text.toString()
-                        // _realm.commitTransaction()
-
-                        listAdapter.refresh()
-                    }
-                    showListener {
-                        App.showKeyboard(inputGroupName, activity)
-                    }
-                    show()
-                }
-            }
-            ***/
         }
 
-        fabCreateGroup.setOnClickListener {
-            fab_menu.toggle()
-            // TODO: Create Note
+        fabMenu.let {
+            it.setOnClickListener { appearCreateNoteDialog() }
+            it.setOnTouchListener { view, motionEvent ->
+                when (motionEvent.action) {
+                    MotionEvent.ACTION_DOWN ->
+                        view.setBackgroundResource(R.color.cyan_500)
+                    MotionEvent.ACTION_CANCEL, MotionEvent.ACTION_UP ->
+                        view.setBackgroundResource(R.color.cyan_400)
+                }
+                return@setOnTouchListener false
+            }
         }
 
         recyclerView.apply {
-            adapter = listAdapter
+            adapter = noteAdapter
             layoutManager = LinearLayoutManager(activity)
             addItemDecoration(DividerItemDecoration(activity))
         }
 
-        refreshView.setOnRefreshListener {
-            listAdapter.refresh()
-            refreshView.isRefreshing = false
-        }
-
-        val refreshParams = refreshView.layoutParams as CoordinatorLayout.LayoutParams
-        refreshParams.behavior = CustomScrollingViewBehavior()
-        refreshView.layoutParams = refreshParams
-
-        val callback = ItemOnTouchCallback(activity)
-        callback.onSwipeListener = object : ItemOnTouchCallback.OnSwipeListener {
-            override fun onSwiped(view: RecyclerView.ViewHolder, direction: Int) {
-                listAdapter.refresh()
-                if (view.itemViewType == ListAdapter.VIEW_TYPE_CHILD) {
-                    GATracker.event(CATEGORY.LIST.to, ACTION.SWIPED.to, LABEL.ITEM.to, 1)
-                } else if (view.itemViewType == ListAdapter.VIEW_TYPE_LIST) {
-                    GATracker.event(CATEGORY.LIST.to, ACTION.SWIPED.to, LABEL.GROUP.to, 1)
-                }
+        refreshView.let {
+            it.setOnRefreshListener {
+                noteAdapter.cleanup()
+                it.isRefreshing = false
+            }
+            (it.layoutParams as CoordinatorLayout.LayoutParams).let { param ->
+                param.behavior = CustomScrollingViewBehavior()
+                it.layoutParams = param
             }
         }
-        val helper = ItemTouchHelper(callback)
-        helper.attachToRecyclerView(recyclerView)
-        recyclerView.addItemDecoration(helper)
+
+        ItemOnTouchCallback(activity).let {
+            it.onSwipeListener = object : ItemOnTouchCallback.OnSwipeListener {
+                override fun onSwiped(view: RecyclerView.ViewHolder, direction: Int) {
+                    noteAdapter.cleanup()
+                }
+            }
+            ItemTouchHelper(it).let {
+                it.attachToRecyclerView(recyclerView)
+                recyclerView.addItemDecoration(it)
+            }
+        }
 
         app_bar.addOnOffsetChangedListener { appBarLayout, mode ->
             refreshView.isEnabled = if (mode == 0) true else false
-            GATracker.event(CATEGORY.LIST.to, ACTION.REFRESH.to, LABEL.HOME.to, 1)
         }
 
     }
@@ -171,28 +131,54 @@ class MainFragment : Fragment() {
 
         override fun onDependentViewChanged(parent: CoordinatorLayout?, child: View?, dependency: View?): Boolean {
             if (child == null || dependency == null) return super.onDependentViewChanged(parent, child, dependency)
-
             return super.onDependentViewChanged(parent, child, dependency)
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        listAdapter.refresh()
     }
 
     private fun setOnKeyEvent() {
         view?.setOnKeyListener({ view, keyCode, keyEvent ->
             if (keyEvent.action != KeyEvent.ACTION_DOWN) return@setOnKeyListener false
-            return@setOnKeyListener when (keyCode) {
-                KeyEvent.KEYCODE_BACK -> if (listAdapter.isCreateItem) true else false
-                else -> false
-            }
+            return@setOnKeyListener false
         })
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        if (realm.isClosed) realm.close()
+    private fun appearCreateNoteDialog() {
+        val modal = LayoutInflater.from(activity).inflate(R.layout.module_create_group_dialog, null)
+        val inputGroupName = modal.findViewById(R.id.inputGroupName) as EditText
+        MaterialDialog.Builder(activity).run {
+            title("Create New Note")
+            customView(modal, false)
+            autoDismiss(true)
+            dismissListener { _activity?.let { App.hideKeyboard(it) } }
+            negativeText("cancel")
+            positiveText("ok")
+            onPositive { dialog, action -> createNote(inputGroupName.text.toString()) }
+            show()
+        }
+    }
+
+    private fun createNote(name: String) {
+        userRef.push().apply {
+            setValue(Note(name))
+            _activity?.fm?.openAsRoot(NoteFragment::class.java, NoteFragment.buildArgument(key))
+        }
+    }
+
+    class NoteViewHolder(val box: View) : RecyclerView.ViewHolder(box) {
+        var listName: TextView? = null
+        var listChildCount: TextView? = null
+
+        init {
+            listName = box.findViewById(R.id.bar_title) as TextView
+            listChildCount = box.findViewById(R.id.number_of_todo) as TextView
+        }
+
+        fun bind(note: Note?, key: String, position: Int) {
+            note ?: return
+            itemView.tag = key
+            listName?.text = note.name
+            listChildCount?.text = "0"
+        }
+
     }
 }
