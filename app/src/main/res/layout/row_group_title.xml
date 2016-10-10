@@ -1,53 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <FrameLayout
+    <TextView
+        android:id="@+id/bar_title"
+        style="@style/TodoBarDefaultTheme"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/black">
+        android:layout_centerVertical="true"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:text="@string/blank"
+        tools:text="NoteTitle"/>
 
-        <ImageView
-            android:id="@+id/swipe_status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:src="@drawable/ic_done_white_24dp"
-            />
+    <TextView
+        android:id="@+id/number_of_todo"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:gravity="center_vertical"
+        android:text="@string/blank"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        tools:text="10"/>
 
-    </FrameLayout>
-
-    <RelativeLayoust
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
-
-        <TextView
-            android:id="@+id/bar_title"
-            style="@style/TodoBarDefaultTheme"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerVertical="true"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:text="@string/blank"
-            />
-
-        <TextView
-            android:id="@+id/number_of_todo"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:gravity="center_vertical"
-            android:text="@string/blank"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            />
-
-    </RelativeLayoust>
-
-</FrameLayout>
+</RelativeLayout>

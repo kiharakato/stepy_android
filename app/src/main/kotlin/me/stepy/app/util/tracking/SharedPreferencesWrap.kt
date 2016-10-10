@@ -11,8 +11,8 @@ object SharedPreferencesWrap {
 
     val localStorage: SharedPreferences
         get() {
-            val packageName = App.getInstance().packageName
-            return App.getInstance().getSharedPreferences(packageName, Activity.MODE_PRIVATE)
+            val packageName = App.context.packageName
+            return App.context.getSharedPreferences(packageName, Activity.MODE_PRIVATE)
         }
 
     /**

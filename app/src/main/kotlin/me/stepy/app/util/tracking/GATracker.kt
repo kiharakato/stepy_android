@@ -13,7 +13,7 @@ class GATracker {
 
         fun getDefaultTracker(): Tracker {
             return tracker ?: run {
-                val analytics = GoogleAnalytics.getInstance(App.getInstance())
+                val analytics = GoogleAnalytics.getInstance(App.context)
                 tracker = analytics.newTracker(R.xml.global_tracker)
                 return tracker as Tracker
             }
